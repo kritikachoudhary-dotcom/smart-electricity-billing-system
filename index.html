@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Electricity Bill Generator</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <div class="icon">⚡</div>
+
+            <h1>Smart Electricity Bill Generator</h1>
+
+            <p>Simple and smart electricity bill calculation</p>
+        </header>
+
+        <form action="/calculate" method="POST">
+
+            <h2>Consumer Information</h2>
+
+            <label>Consumer Name</label>
+            <input type="text"
+                   name="name"
+                   placeholder="Enter your name"
+                   required>
+
+            <label>Consumer ID</label>
+            <input type="text"
+                   name="consumer_id"
+                   placeholder="Enter consumer ID"
+                   required>
+
+            <h2>Electricity Units</h2>
+
+            <p class="hint">
+                Enter one or more unit values.
+            </p>
+
+            <div class="unit-grid">
+
+                <input type="number" name="unit1"
+                       placeholder="Unit 1" min="0" step="any">
+
+                <input type="number" name="unit2"
+                       placeholder="Unit 2" min="0" step="any">
+
+                <input type="number" name="unit3"
+                       placeholder="Unit 3" min="0" step="any">
+
+                <input type="number" name="unit4"
+                       placeholder="Unit 4" min="0" step="any">
+
+                <input type="number" name="unit5"
+                       placeholder="Unit 5" min="0" step="any">
+
+            </div>
+
+            <button type="submit">
+                Calculate Electricity Bill
+            </button>
+
+        </form>
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        {% if bill %}
+
+        <section class="bill">
+
+            <h2>Electricity Bill Summary</h2>
+
+            <p>
+                <strong>Consumer Name:</strong>
+                {{ bill.name }}
+            </p>
+
+            <p>
+                <strong>Consumer ID:</strong>
+                {{ bill.consumer_id }}
+            </p>
+
+            <p>
+                <strong>Total Units:</strong>
+                {{ "%.2f"|format(bill.units) }} kWh
+            </p>
+
+            <hr>
+
+            <p>
+                Energy Charges:
+                ₹{{ "%.2f"|format(bill.energy) }}
+            </p>
+
+            <p>
+                Fixed Charges:
+                ₹{{ "%.2f"|format(bill.fixed) }}
+            </p>
+
+            <p>
+                Tax (5%):
+                ₹{{ "%.2f"|format(bill.tax) }}
+            </p>
+
+            <div class="total">
+                <span>Total Bill</span>
+
+                <span>
+                    ₹{{ "%.2f"|format(bill.total) }}
+                </span>
+            </div>
+
+            <p class="success">
+                Bill calculated successfully!
+            </p>
+            <button type="reset" class="reset-btn">
+    Clear All
+</button>
+
+        </section>
+
+        {% endif %}
+
+        <footer>
+            Smart Electricity Bill Generator
+            <br>
+            Developed using C, Python, HTML and CSS
+        </footer>
+
+    </div>
+
+</body>
+</html>
